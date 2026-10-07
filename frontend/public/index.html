@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>DevOps Project</title>
+</head>
+<body>
+    <h1>Complete DevOps Project</h1>
+
+    <p id="status">Checking backend...</p>
+
+    <button onclick="checkBackend()">Check Backend</button>
+
+    <script>
+        async function checkBackend() {
+            const status = document.getElementById("status");
+
+            try {
+                const response = await fetch("http://localhost:3000/health");
+                const data = await response.json();
+
+                status.innerText =
+                    "Backend Status: " + data.status;
+            } catch (error) {
+                status.innerText = "Backend is unavailable";
+            }
+        }
+
+        checkBackend();
+    </script>
+</body>
+</html>

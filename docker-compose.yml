@@ -1,0 +1,17 @@
+services:
+
+  backend:
+    build:
+      context: ./backend
+    container_name: devops-backend
+    ports:
+      - "3000:3000"
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: devops-frontend
+    ports:
+      - "8080:8080"
+    depends_on:
+      - backend

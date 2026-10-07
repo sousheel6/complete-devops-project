@@ -1,0 +1,11 @@
+{
+  "name": "devops-frontend",
+  "version": "1.0.0",
+  "description": "DevOps project frontend",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^5.1.0"
+  }
+}
