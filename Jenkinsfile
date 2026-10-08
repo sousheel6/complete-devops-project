@@ -65,7 +65,7 @@ pipeline {
                           -Dsonar.projectKey=complete-devops-project \
                           -Dsonar.projectName=Complete-DevOps-Project \
                           -Dsonar.sources=backend,frontend \
-                          -Dsonar.token=\$SONAR_TOKEN
+                          -Dsonar.token="${SONAR_TOKEN}"
                     """
                 }
             }
