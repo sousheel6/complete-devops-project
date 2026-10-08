@@ -52,21 +52,26 @@ pipeline {
         }
 
         stage('SonarQube Scan') {
-            steps {
-                script {
-                    def scannerHome = tool 'SonarScanner'
+    steps {
+        script {
+            def scannerHome = tool 'SonarScanner'
 
-                    withSonarQubeEnv('SonarQube') {
-                        sh """
-                            ${scannerHome}/bin/sonar-scanner \
-                              -Dsonar.projectKey=complete-devops-project \
-                              -Dsonar.projectName=Complete-DevOps-Project \
-                              -Dsonar.sources=backend,frontend
-                        """
-                    }
+            withCredentials([
+                string(credentialsId: 'sonar-token', variable: 'SONAR_TOKEN')
+            ]) {
+                withSonarQubeEnv('SonarQube') {
+                    sh """
+                        ${scannerHome}/bin/sonar-scanner \
+                          -Dsonar.projectKey=complete-devops-project \
+                          -Dsonar.projectName=Complete-DevOps-Project \
+                          -Dsonar.sources=backend,frontend \
+                          -Dsonar.token=\$SONAR_TOKEN
+                    """
                 }
             }
         }
+    }
+}
 
         stage('Build Backend Image') {
             steps {
