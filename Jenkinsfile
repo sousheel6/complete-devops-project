@@ -46,6 +46,30 @@ stage('ECR Login') {
         }
     }
 }
+
+stage('Push Backend Image to ECR') {
+    steps {
+        sh '''
+            docker tag complete-devops-backend:latest \
+            YOUR_ACCOUNT_ID.dkr.ecr.ap-south-1.amazonaws.com/complete-devops-backend:latest
+
+            docker push \
+            227769753769.dkr.ecr.ap-south-1.amazonaws.com/complete-devops-backend:latest
+        '''
+    }
+}
+
+stage('Push Frontend Image to ECR') {
+    steps {
+        sh '''
+            docker tag complete-devops-frontend:latest \
+            YOUR_ACCOUNT_ID.dkr.ecr.ap-south-1.amazonaws.com/complete-devops-frontend:latest
+
+            docker push \
+            227769753769.dkr.ecr.ap-south-1.amazonaws.com/complete-devops-frontend:latest
+        '''
+    }
+}
         stage('Build Backend Image') {
             steps {
                 sh '''
