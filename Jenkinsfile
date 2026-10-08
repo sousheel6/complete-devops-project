@@ -32,6 +32,20 @@ pipeline {
         }
     }
 }
+stage('ECR Login') {
+    steps {
+        withCredentials([
+            [$class: 'AmazonWebServicesCredentialsBinding',
+             credentialsId: 'aws-ecr-creds']
+        ]) {
+            sh '''
+                aws ecr get-login-password --region ap-south-1 | \
+                docker login --username AWS --password-stdin \
+                227769753769.dkr.ecr.ap-south-1.amazonaws.com
+            '''
+        }
+    }
+}
         stage('Build Backend Image') {
             steps {
                 sh '''
