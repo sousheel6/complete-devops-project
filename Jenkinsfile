@@ -33,7 +33,6 @@ pipeline {
             }
         }
 
-    
         stage('ECR Login') {
             steps {
                 withCredentials([
@@ -51,22 +50,25 @@ pipeline {
                 }
             }
         }
-stage('SonarQube Scan') {
-    steps {
-        script {
-            def scannerHome = tool 'SonarScanner'
 
-            withSonarQubeEnv('SonarQube') {
-                sh """
-                    ${scannerHome}/bin/sonar-scanner \
-                      -Dsonar.projectKey=complete-devops-project \
-                      -Dsonar.projectName=Complete-DevOps-Project \
-                      -Dsonar.sources=backend,frontend
-                """
+        stage('SonarQube Scan') {
+            steps {
+                script {
+                    def scannerHome = tool 'SonarScanner'
+
+                    withSonarQubeEnv('SonarQube') {
+                        sh """
+                            ${scannerHome}/bin/sonar-scanner \
+                              -Dsonar.projectKey=complete-devops-project \
+                              -Dsonar.projectName=Complete-DevOps-Project \
+                              -Dsonar.sources=backend,frontend
+                        """
+                    }
+                }
             }
         }
-    }
-}        stage('Build Backend Image') {
+
+        stage('Build Backend Image') {
             steps {
                 sh '''
                     docker build \
