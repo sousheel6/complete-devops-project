@@ -51,7 +51,18 @@ pipeline {
                 }
             }
         }
-
+stage('SonarQube Scan') {
+    steps {
+        withSonarQubeEnv('SonarQube') {
+            sh '''
+                sonar-scanner \
+                  -Dsonar.projectKey=complete-devops-project \
+                  -Dsonar.projectName=Complete-DevOps-Project \
+                  -Dsonar.sources=backend,frontend
+            '''
+        }
+    }
+}
         stage('Build Backend Image') {
             steps {
                 sh '''
