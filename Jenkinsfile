@@ -108,6 +108,31 @@ stage('EKS Test') {
         }
     }
 
+stage('Deploy to EKS') {
+    steps {
+        withCredentials([
+            [$class: 'AmazonWebServicesCredentialsBinding',
+             credentialsId: 'aws-ecr-creds']
+        ]) {
+            sh '''
+                aws eks update-kubeconfig \
+                  --region ap-south-1 \
+                  --name complete-devops-dev-eks
+
+                kubectl set image deployment/backend \
+                  backend=227769753769.dkr.ecr.ap-south-1.amazonaws.com/complete-devops-backend:latest \
+                  -n devops
+
+                kubectl set image deployment/frontend \
+                  frontend=227769753769.dkr.ecr.ap-south-1.amazonaws.com/complete-devops-frontend:latest \
+                  -n devops
+
+                kubectl rollout status deployment/backend -n devops
+                kubectl rollout status deployment/frontend -n devops
+            '''
+        }
+    }
+}
     post {
         success {
             echo 'CI/CD pipeline completed successfully!'
