@@ -46,6 +46,26 @@ stage('ECR Login') {
         }
     }
 }
+     stage('Build Backend Image') {
+            steps {
+                sh '''
+                    docker build \
+                      -t complete-devops-backend:latest \
+                      ./backend
+                '''
+            }
+        }
+
+        stage('Build Frontend Image') {
+            steps {
+                sh '''
+                    docker build \
+                      -t complete-devops-frontend:latest \
+                      ./frontend
+                '''
+            }
+        }
+    }
 
 stage('Push Backend Image to ECR') {
     steps {
@@ -70,26 +90,7 @@ stage('Push Frontend Image to ECR') {
         '''
     }
 }
-        stage('Build Backend Image') {
-            steps {
-                sh '''
-                    docker build \
-                      -t complete-devops-backend:latest \
-                      ./backend
-                '''
-            }
-        }
-
-        stage('Build Frontend Image') {
-            steps {
-                sh '''
-                    docker build \
-                      -t complete-devops-frontend:latest \
-                      ./frontend
-                '''
-            }
-        }
-    }
+   
 
     post {
         success {
