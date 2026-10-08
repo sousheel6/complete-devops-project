@@ -33,6 +33,19 @@ pipeline {
             }
         }
 
+stage('EKS Test') {
+    steps {
+        withCredentials([
+            [$class: 'AmazonWebServicesCredentialsBinding',
+             credentialsId: 'aws-ecr-creds']
+        ]) {
+            sh '''
+                aws eks list-clusters --region ap-south-1
+            '''
+        }
+    }
+}
+
         stage('ECR Login') {
             steps {
                 withCredentials([
